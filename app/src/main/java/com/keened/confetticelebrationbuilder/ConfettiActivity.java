@@ -2,6 +2,7 @@ package com.keened.confetticelebrationbuilder;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +42,7 @@ public class ConfettiActivity extends Activity {
             Paint rectPaint = new Paint();
             rectPaint.setColor(Color.BLUE);
             rectPaint.setStyle(Paint.Style.FILL);
-            
+
             //set text attributes
             Paint textPaint = new Paint();
             textPaint.setTextAlign(Paint.Align.CENTER);
@@ -50,12 +52,14 @@ public class ConfettiActivity extends Activity {
             canvas.drawColor(Color.DKGRAY); // background color
             canvas.drawRect(30, 50, 200, 100, rectPaint);
             canvas.drawText("Clear", 115, 90, textPaint);
-            canvas.drawText("Tap to add a dot",420, 90, textPaint);
+            canvas.drawText("Tap to add a dot", 420, 90, textPaint);
+
+            Paint paint = new Paint();
+
 
             for (Confetti confetti : mConfettiList) {
-                Paint paint = new Paint();
-                paint.setColor(Color.WHITE); // color for the circle
                 canvas.drawCircle(confetti.getmPointX(), confetti.getmPointY(), 10, paint);
+                paint.setColor(confetti.getmColor()); // color for the circle
             }
 
         }
@@ -66,7 +70,14 @@ public class ConfettiActivity extends Activity {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 pt.x = (int) event.getX();
                 pt.y = (int) event.getY();
+
+                // touch inside the Clear button
+                if (pt.x > 29 && pt.x < 201 && pt.y > 50 && pt.y < 101) {
+                    recreate();
+                }
+
                 mConfetti = new Confetti(pt.x, pt.y);
+                mConfetti.setColor();
                 mConfettiList.add(mConfetti);
 
                 invalidate();

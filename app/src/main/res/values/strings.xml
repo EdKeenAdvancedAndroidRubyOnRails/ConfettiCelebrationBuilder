@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Confetti Celebration Builder</string>
     <string name="action_settings">Settings</string>
-    <string name="forToast">In For Loop</string>
+    <string name="buttonToast">In Clear Text Button</string>
 </resources>
